@@ -118,11 +118,11 @@
       >
         List
       </h6>
-      <b-row class="justify-content-center align-items-center my-5">
-        <b-col class="col-12 col-xl-3 col-lg-3 col-md-6 col-sm-12 text-center">
+      <b-row class="justify-content-center align-items-center my-5" >
+          <b-col class="col-12 col-xl-3 col-lg-3 col-md-6 col-sm-12 text-center" v-for="(category, index) in categories" :key="index">
           <b-card
-            title="Card Title"
-            img-src="https://picsum.photos/600/300/?image=25"
+            :title= "category.name"
+            :img-src= "`http://www.code4everyone.info/storage/${category.avatar}`" 
             img-alt="Image"
             img-top
             tag="article"
@@ -133,58 +133,7 @@
               bulk of the card's content.
             </b-card-text>
 
-            <b-button href="#" variant="primary">view details</b-button>
-          </b-card>
-        </b-col>
-        <b-col class="col-12 col-xl-3 col-lg-3 col-md-6 col-sm-12 text-center">
-          <b-card
-            title="Card Title"
-            img-src="https://picsum.photos/600/300/?image=25"
-            img-alt="Image"
-            img-top
-            tag="article"
-            class="my-3"
-          >
-            <b-card-text>
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </b-card-text>
-
-            <b-button href="#" variant="primary">view details</b-button>
-          </b-card>
-        </b-col>
-        <b-col class="col-12 col-xl-3 col-lg-3 col-md-6 col-sm-12 text-center">
-          <b-card
-            title="Card Title"
-            img-src="https://picsum.photos/600/300/?image=25"
-            img-alt="Image"
-            img-top
-            tag="article"
-            class="my-3"
-          >
-            <b-card-text>
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </b-card-text>
-
-            <b-button href="#" variant="primary">view details</b-button>
-          </b-card>
-        </b-col>
-        <b-col class="col-12 col-xl-3 col-lg-3 col-md-6 col-sm-12 text-center">
-          <b-card
-            title="Card Title"
-            img-src="https://picsum.photos/600/300/?image=25"
-            img-alt="Image"
-            img-top
-            tag="article"
-            class="my-3"
-          >
-            <b-card-text>
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </b-card-text>
-
-            <b-button href="#" variant="primary">view details</b-button>
+            <b-button :to="{ name: 'cropCategory', params: { category: category.id }, }" variant="primary">view details</b-button>
           </b-card>
         </b-col>
       </b-row>
@@ -212,12 +161,36 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: "HomeView",
   components: {},
   data: () => ({
     slider: 0,
+    categories: [
+
+    ]
   }),
+  mounted() {
+    this.fetchData()
+  },
+
+  methods: {
+    fetchData() {
+        axios.get('/getCategory', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      })
+      .then(response => {
+        this.categories = response.data
+      })
+      .catch(({response}) => {
+        console.log(response);
+      })
+    },
+  }
 };
 </script>
 <style></style>

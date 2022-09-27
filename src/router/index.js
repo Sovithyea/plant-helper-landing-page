@@ -24,6 +24,12 @@ const routes = [
     name: 'crop',
     component:()=>import('../views/Crop.vue')
   },
+
+  {
+    path: '/getCrop/:category',
+    name: 'cropCategory',
+    component: () => import('../views/CropCategory.vue')
+},
 ]
 
 const router = new VueRouter({
